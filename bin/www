@@ -93,7 +93,7 @@ function onListening() {
 
 db.run()
   .then(() => {
-    console.log("connection succeful");
+    console.log(`succeful connection ${process.env.DB}`);
     server.listen(port);
   })
   .catch(error => console.error(error));

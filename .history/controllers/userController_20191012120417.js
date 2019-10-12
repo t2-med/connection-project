@@ -5,8 +5,10 @@ const User = require(`../models/${process.env.DB}-user`);
 const getAll = (req, res) => {
   userService
     .getAll()
-    .then(user => res.status(200).json(user))
-    .catch(err => res.status(404).json(err));
+    .then(user => res.status(200)
+    .json(user))
+    .catch(err => res.status(404)
+    .json(err));
 };
 
 const getById = (req, res) => {
@@ -39,8 +41,10 @@ const getByEmail = (req, res) => {
 const create = (req, res) => {
   userService
     .create(req.body)
-    .then(user => res.status(200).json(user))
-    .catch(err => res.status(500).json(err));
+    .then(user => res.status(200)
+    .json(user))
+    .catch(err => res.status(500)
+    .json(err));
 };
 
 const update = (req, res) => {

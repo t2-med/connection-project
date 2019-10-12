@@ -29,4 +29,4 @@ const run = async () => {
   await sequelize;
 };
 
-module.exports = { run };
+module.exports = { run, sequelize };
