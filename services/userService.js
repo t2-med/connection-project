@@ -1,4 +1,5 @@
-const User = require("../models/user");
+require("dotenv").config();
+const User = require(`../models/${process.env.DB}-user`);
 
 const getAll = async () => await User.find();
 
