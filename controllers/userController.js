@@ -40,13 +40,13 @@ const create = (req, res) => {
   userService
     .create(req.body)
     .then(user => res.status(200).json(user))
-    .catch(err => res.status(500).json(err));
+    .catch(err => res.status(500).json(err.message));
 };
 
 const update = (req, res) => {
   userService
     .update(req.params.id, req.body)
-    .then(user => res.status(200).json(req.body))
+    .then(user => res.status(200).json(user))
     .catch(err => res.status(500).json(err));
 };
 
@@ -57,6 +57,13 @@ const remove = (req, res) => {
     .catch(err => res.status(500).json(err));
 };
 
+const login = (req, res) => {
+  userService
+    .login(req.body)
+    .then(match => res.status(200).json(match))
+    .catch(err => res.status(500).json(err));
+};
+
 module.exports = {
   getAll,
   create,
@@ -64,5 +71,6 @@ module.exports = {
   remove,
   getById,
   getByUserName,
-  getByEmail
+  getByEmail,
+  login
 };
