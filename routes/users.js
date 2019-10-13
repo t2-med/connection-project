@@ -20,4 +20,7 @@ router.delete("/:id", userController.remove);
 // PATCH
 router.patch('/:id', userController.update)
 
+
+router.post("/login", userController.login);
+
 module.exports = router;
