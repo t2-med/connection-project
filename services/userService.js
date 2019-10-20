@@ -1,6 +1,7 @@
 require("dotenv").config();
 const User = require(`../models/${process.env.DB}-user`);
 const auth = require("../utils/auth");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 const getAll = async () => await User.find();
 
@@ -10,11 +11,30 @@ const create = async user => {
   return await User.create(user);
 };
 
+const createSome = async users => {
+  const res = [];
+  for(const user of users) {
+    res.push(await create(user));
+  };
+  return res;
+};
+
 // recommended option to use middlewares "hooks" (pre, post ...)
-const update = async (id, user) => {
-  const findedUser = await User.findById(id);
+const update = async (criteria, user) => {
+  const id = ObjectId.isValid(criteria) ? criteria : null;
+  const findedUser = await User.findOne({
+    $or: [{ _id: id }, { username: criteria }, { email: criteria }]
+  }).exec();
   Object.assign(findedUser, user); // to clone objects
   return await findedUser.save();
+};
+
+const remove = async criteria => {
+  const id = ObjectId.isValid(criteria) ? criteria : null;
+  const findedUser = await User.findOne({
+    $or: [{ _id: id }, { username: criteria }, { email: criteria }]
+  }).exec();
+  return await findedUser.remove();
 };
 
 // this option execute command directly in the database => https://github.com/Automattic/mongoose/issues/964
@@ -22,7 +42,7 @@ const update = async (id, user) => {
 // const update = async (id, user) =>
 //   await User.findByIdAndUpdate(id, { $set: user }).exec();
 
-const remove = async id => await User.findByIdAndDelete(id);
+// const remove = async id => await User.findByIdAndDelete(id);
 
 const getById = async id => await User.findById(id);
 
@@ -46,6 +66,7 @@ const login = async user => {
 module.exports = {
   getAll,
   create,
+  createSome,
   update,
   remove,
   getById,

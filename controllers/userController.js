@@ -43,16 +43,23 @@ const create = (req, res) => {
     .catch(err => res.status(500).json(err.message));
 };
 
+const createSome = (req, res) => {
+  userService
+    .createSome(req.body)
+    .then(user => res.status(200).json(user))
+    .catch(err => res.status(500).json(err.message));
+};
+
 const update = (req, res) => {
   userService
-    .update(req.params.id, req.body)
+    .update(req.params.id || req.params.username || req.params.email, req.body)
     .then(user => res.status(200).json(user))
     .catch(err => res.status(500).json(err));
 };
 
 const remove = (req, res) => {
   userService
-    .remove(req.params.id)
+    .remove(req.params.id || req.params.username || req.params.email)
     .then(() => res.status(200).json("Deleted"))
     .catch(err => res.status(500).json(err));
 };
@@ -67,6 +74,7 @@ const login = (req, res) => {
 module.exports = {
   getAll,
   create,
+  createSome,
   update,
   remove,
   getById,

@@ -4,6 +4,10 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
+const YAML = require('yamljs');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = YAML.load('./swaggers/swagger.yaml');
+
 const routes = require("./routes");
 
 const app = express();
@@ -13,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get("/", (req, res) => res.redirect('/api/v1/users'));
 app.use("/api/v1", routes);
 
