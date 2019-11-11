@@ -25,12 +25,14 @@ mongoose.connection.on("error", error => {
 });
 
 const run = async () => {
+  // const host = process.env.DOCKER_HOST; //|| process.env.DB_HOST;
+  // const port = process.env.DOCKER_PORT; //|| process.env.DB_PORT;
   await mongoose.connect(
-    `${process.env.DB_PROTOCOL}${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DATABASE}`,
+    `mongodb://mongo_connection:27017/t_connection`,
+    // `${process.env.DB_PROTOCOL}${host}:${port}/${process.env.DATABASE}`,
     {
-      autoReconnect: true,
-      reconnectTries: 1000000,
-      reconnectInterval: 3000
+      useNewUrlParser: true,
+      useUnifiedTopology: true
     }
   );
 };
