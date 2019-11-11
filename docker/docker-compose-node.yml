@@ -1,0 +1,16 @@
+version: "3"
+services:
+  node_connection:
+    container_name: node_connection
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile-connection
+    command: npm start
+    ports:
+      - "3000:3000"
+    env_file: ../.env
+    networks: 
+      - intranet
+
+networks:
+  intranet:

@@ -1,0 +1,19 @@
+version: "3"
+services:
+  node_connection:
+    container_name: node_connection
+    build:
+      context: .
+    command: npm starty
+    depends_on:
+      - mongo_connection
+    ports:
+      - "3000:3000"
+    env_file: .env
+  mongo_connection:
+    container_name: mongo_connection
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/mongodb:/data/db

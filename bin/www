@@ -12,7 +12,9 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-const db = require(`../database/${process.env.DB}-connection`);
+// const db = require(`../database/${process.env.DB}-connection`);
+const db = require(`../database/mongodb-connection`);
+
 
 /**
  * Get port from environment and store in Express.
@@ -30,6 +32,14 @@ const server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
+server.listen(port,() => {
+  console.log(`server running: port ${process.env.PORT}`);
+  db.run()
+  .then(() => {
+    console.log(`succefully connection ${process.env.DB}`);
+  })
+  .catch(error => console.error(error));
+  });
 
 // server.listen(port);
 server.on("error", onError);
@@ -91,9 +101,9 @@ function onListening() {
   debug("Listening on " + bind);
 }
 
-db.run()
-  .then(() => {
-    console.log(`succeful connection ${process.env.DB}`);
-    server.listen(port);
-  })
-  .catch(error => console.error(error));
+// db.run()
+//   .then(() => {
+//     console.log(`succeful connection ${process.env.DB}`);
+//     server.listen(port,() => console.log(`server running: port ${process.env.PORT}`));
+//   })
+//   .catch(error => console.error(error));
