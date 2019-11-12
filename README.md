@@ -7,4 +7,3 @@
 >* log-out
 >* recover forgotten password
 >* oauth -> log-in with google account
-test
