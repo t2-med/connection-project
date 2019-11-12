@@ -11,7 +11,7 @@
 //         sh "docker-compose -f docker-compose.integration.yml down -v"
 // }
 
-node('docker') {
+node {
     stage('Clone repository') {
         checkout scm
     }
