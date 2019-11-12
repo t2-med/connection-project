@@ -1,8 +1,9 @@
-node('node') {
-stage('Checkout'){
+node {
     checkout scm
-    }
-stage('Build'){
-    sh 'npm install'
+    /* Requires the Docker Pipeline plugin to be installed */
+    docker.image('node:latest').inside {
+        stage('Test') {
+            sh 'node --version'
+        }
     }
 }
