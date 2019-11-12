@@ -15,12 +15,15 @@ node {
     stage('Clone repository') {
         checkout scm
     }
-    /* Requires the Docker Pipeline plugin to be installed */
-    docker.image('node:latest').inside {
-        stage('Test') {
-            sh 'node --version'
-        }
+    stage('Clone repository') {
+        sh 'docker build -t med2bouanane/node_connection:1.0.0 .'
     }
+    /* Requires the Docker Pipeline plugin to be installed */
+    // docker.image('node:latest').inside {
+    //     stage('Test') {
+    //         sh 'node --version'
+    //     }
+    // }
 }
 
 // pipeline {
