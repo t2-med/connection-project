@@ -20,6 +20,7 @@ node {
     // }
     /* Requires the Docker Pipeline plugin to be installed */
     docker.image('node:latest').inside {
+        def newImage
         stage('BUILD') {
             sh 'npm install'
         }
@@ -28,7 +29,7 @@ node {
         }
     }
     stage('Docker Build') {
-        def newImage = docker.build("med2bouanane/node_connection:1.0.${env.BUILD_ID}")
+        newImage = docker.build("med2bouanane/node_connection:1.0.${env.BUILD_ID}")
     }
     stage('Docker Push') {
         docker.withRegistry('', 'DockerHub') {
