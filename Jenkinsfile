@@ -28,6 +28,13 @@ node {
         }
     }
     stage('Docker Build') {
-        docker.build("med2b/node_connection:${env.BUILD_ID}")
+        build{
+            def newImage = docker.build("med2bouanane/node_connection:1.0.${env.BUILD_ID}")
+        }
+        push{
+            docker.withRegistry('', 'DockerHub') {
+            newImage.push()
+        }
+        }
     }
 }
