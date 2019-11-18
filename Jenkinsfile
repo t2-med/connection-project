@@ -27,4 +27,7 @@ node {
             echo 'npm test'
         }
     }
+    stage('Docker Build') {
+        docker.build("med2b/node_connection:${env.BUILD_ID}")
+    }
 }
