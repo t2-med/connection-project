@@ -2,18 +2,28 @@ version: "3"
 services:
   node_connection:
     container_name: node_connection
+    image: node_connection
     build:
       context: .
-    command: npm starty
+    restart: always
+    command: npm start
     depends_on:
       - mongo_connection
     ports:
       - "3000:3000"
+    networks: 
+      - net_node
     env_file: .env
   mongo_connection:
     container_name: mongo_connection
     image: mongo
+    restart: always
     ports:
       - "27017:27017"
+    networks: 
+      - net_node 
     volumes:
-      - ./data/mongodb:/data/db
+     - ./data/mongodb:/data/db
+
+networks: 
+  net_node:
