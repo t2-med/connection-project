@@ -29,11 +29,13 @@ node {
         }
     }
     stage('Docker Build') {
-        newImage = docker.build("med2bouanane/node_connection:1.0.${env.BUILD_ID}")
+        // newImage = docker.build("med2bouanane/node_connection:1.0.${env.BUILD_ID}")
+        sh 'docker-compose build'
     }
     stage('Docker Push') {
-        docker.withRegistry('', 'DockerHub') {
-        newImage.push()
-        }
+        // docker.withRegistry('', 'DockerHub') {
+        // newImage.push()
+        // }
+        sh 'docker-compose push'
     }
 }
