@@ -1,8 +1,8 @@
 version: "3"
 services:
   node_connection:
-    container_name: node_connection
-    image: node_connection
+    container_name: med2bouanane/node_connection
+    image: med2bouanane/node_connection
     build:
       context: .
     restart: always
