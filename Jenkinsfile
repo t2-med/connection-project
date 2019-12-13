@@ -30,7 +30,7 @@ node {
     }
     stage('Docker Build') {
         // newImage = docker.build("med2bouanane/node_connection:1.0.${env.BUILD_ID}")
-        sh 'docker login -u=$DOCKER_HUB_USER -p=$DOCKER_HUB_PASS'
+        sh 'docker login -u=$DOCKER_HUB_USER --password-stdin=$DOCKER_HUB_PASS docker.io'
         sh 'docker-compose build'
     }
     stage('Docker Push') {
