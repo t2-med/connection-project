@@ -35,8 +35,8 @@ node {
         sh 'docker-compose up -d'
     }
     stage('Docker Tag') {
-        sh 'docker tag $DOCKER_HUB_USER/node_connection:1.0.${env.BUILD_ID}'
-        sh 'docker tag $DOCKER_HUB_USER/node_connection:latest'
+        sh 'docker tag $DOCKER_HUB_USER/node_connection $DOCKER_HUB_USER/node_connection:1.0.${env.BUILD_ID}'
+        sh 'docker tag $DOCKER_HUB_USER/node_connection $DOCKER_HUB_USER/node_connection:latest'
     }
     stage('Docker Push') {
         // docker.withRegistry('', 'DockerHub') {
