@@ -1,12 +1,12 @@
 version: "3"
 services:
   node_connection:
-    container_name: med2bouanane/node_connection
+    container_name: node_connection
     image: med2bouanane/node_connection
     build:
       context: .
     restart: always
-    command: npm start
+    command: ./wait-for.sh mongo_connection:2717 -- npm start
     depends_on:
       - mongo_connection
     ports:
