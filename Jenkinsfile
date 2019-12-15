@@ -32,6 +32,11 @@ node {
         // newImage = docker.build("med2bouanane/node_connection:1.0.${env.BUILD_ID}")
         sh 'docker login -u=$DOCKER_HUB_USER -p=$DOCKER_HUB_PASS docker.io'
         sh 'docker-compose build'
+        sh 'docker-compose up -d'
+    }
+    stage('Docker Tag') {
+        sh 'docker tag $DOCKER_HUB_USER/node_connection:1.0.${env.BUILD_ID}'
+        sh 'docker tag $DOCKER_HUB_USER/node_connection:latest'
     }
     stage('Docker Push') {
         // docker.withRegistry('', 'DockerHub') {
