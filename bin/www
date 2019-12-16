@@ -10,6 +10,7 @@ const http = require("http");
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
+  console.log("-------------------------> DEV");
 }
 
 // const db = require(`../database/${process.env.DB}-connection`);
@@ -29,16 +30,22 @@ app.set("port", port);
 
 const server = http.createServer(app);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
-server.listen(port,() => {
-  console.log(`server running: port ${process.env.PORT}`);
-  db.run()
+db.run()
   .then(() => {
     console.log(`succefully connection ${process.env.DB}`);
   })
   .catch(error => console.error(error));
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+server.listen('3000',() => {
+  console.log(`server running-----: port ${port}#${process.env.PORT}`);
+  // db.run()
+  // .then(() => {
+  //   console.log(`succefully connection ${process.env.DB}`);
+  // })
+  // .catch(error => console.error(error));
   });
 
 // server.listen(port);

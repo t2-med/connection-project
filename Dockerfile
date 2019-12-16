@@ -2,6 +2,8 @@ FROM node:latest
 
 WORKDIR /usr/src/app
 
+RUN apt update && apt install -y netcat 
+
 COPY package*.json ./
 
 RUN npm install
