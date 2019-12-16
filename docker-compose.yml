@@ -5,10 +5,11 @@ services:
     image: med2bouanane/node_connection
     build:
       context: .
-    restart: always
-    command: ./wait-for.sh mongo_connection:2717 -- npm start
+      dockerfile: Dockerfile
+    restart: unless-stopped
     depends_on:
       - mongo_connection
+    command: ./wait-for.sh mongo_connection:27017 -- npm start
     ports:
       - "3000:3000"
     networks: 
@@ -17,7 +18,7 @@ services:
   mongo_connection:
     container_name: mongo_connection
     image: mongo
-    restart: always
+    restart: unless-stopped
     ports:
       - "27017:27017"
     networks: 
