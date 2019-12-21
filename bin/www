@@ -10,7 +10,6 @@ const http = require("http");
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
-  console.log("-------------------------> DEV");
 }
 
 // const db = require(`../database/${process.env.DB}-connection`);
@@ -21,7 +20,7 @@ const db = require(`../database/mongodb-connection`);
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || "3000");
+const port = normalizePort(process.env.NODE_PORT || "3000");
 app.set("port", port);
 
 /**
@@ -39,13 +38,8 @@ db.run()
 /**
  * Listen on provided port, on all network interfaces.
  */
-server.listen('3000',() => {
-  console.log(`server running-----: port ${port}#${process.env.PORT}`);
-  // db.run()
-  // .then(() => {
-  //   console.log(`succefully connection ${process.env.DB}`);
-  // })
-  // .catch(error => console.error(error));
+server.listen(port,() => {
+  console.log(`server running: port ${port}`);
   });
 
 // server.listen(port);
