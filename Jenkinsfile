@@ -42,6 +42,6 @@ node {
         // docker.withRegistry('', 'DockerHub') {
         // newImage.push()
         // }
-        sh 'docker-compose push'
+        sh 'docker-compose bundle --push-images'
     }
 }
