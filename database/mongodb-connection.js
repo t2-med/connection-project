@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 mongoose.Promise = Promise;
 
-mongoose.set('useFindAndModify', false);
+mongoose.set("useFindAndModify", false);
 
 mongoose.connection.on("connected", () => {
   console.log("Connection Established");
@@ -25,11 +25,9 @@ mongoose.connection.on("error", error => {
 });
 
 const run = async () => {
-  // const host = process.env.DOCKER_HOST; //|| process.env.DB_HOST;
-  // const port = process.env.DOCKER_PORT; //|| process.env.DB_PORT;
   await mongoose.connect(
-    `mongodb://mongo_connection:27017/t_connection`,
-    // `${process.env.DB_PROTOCOL}${host}:${port}/${process.env.DATABASE}`,
+    //`mongodb://mongo_connection:27017/t_connection`,
+    `${process.env.DB_PROTOCOL}${process.env.MONGO_SERVICE}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true
