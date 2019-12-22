@@ -1,0 +1,31 @@
+version: "3"
+services:
+  node_connection:
+    container_name: node_connection
+    image: "${DOCKER_USER}/node_connection:1.0.${MINOR_TAG}"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - ${MONGO_SERVICE}
+    command: ./wait-for.sh ${MONGO_CONTAINER}:${DB_PORT} -- npm start
+    ports:
+      - "${NODE_PORT}:3000"
+    networks: 
+      - net_node
+    env_file: 
+      - .env
+  mongo_connection:
+    container_name: ${MONGO_CONTAINER}
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT}:27017"
+    networks: 
+      - net_node 
+    volumes:
+     - ${MONGO_VOLUME}:/data/db
+
+networks: 
+  net_node:
