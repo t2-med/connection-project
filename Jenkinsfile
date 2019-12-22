@@ -49,8 +49,9 @@ node {
         // sh 'docker-compose bundle --push-images'
     }
     stage('Docker Build new version') {
+        sh "export MINOR_TAG=${env.BUILD_ID}"
         sh 'docker-compose -f docker-compose.override.yml build'
-        sh "docker-compose -f docker-compose.override.yml -e MINOR_TAG=${env.BUILD_ID} up -d"
+        sh "docker-compose -f docker-compose.override.yml up -d"
     }
     stage('Docker Push new version') {
         sh 'docker-compose push'
