@@ -54,7 +54,7 @@ node {
         sh "MINOR_TAG=${env.BUILD_ID} docker-compose -f docker-compose.override.yml up -d"
     }
     stage('Docker Push new version') {
-        sh 'docker-compose -f docker-compose.override.yml push'
+        sh "MINOR_TAG=${env.BUILD_ID} docker-compose -f docker-compose.override.yml push"
     }
     stage('Docker Logout') {
         sh 'docker logout'
