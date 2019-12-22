@@ -26,7 +26,6 @@ mongoose.connection.on("error", error => {
 
 const run = async () => {
   await mongoose.connect(
-    //`mongodb://mongo_connection:27017/t_connection`,
     `${process.env.DB_PROTOCOL}${process.env.MONGO_SERVICE}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`,
     {
       useNewUrlParser: true,

@@ -1,6 +1,0 @@
-FROM mongo:latest
-
-VOLUME /data/db /data/configdb
-
-EXPOSE 27017
-CMD ["mongod"]

@@ -7,6 +7,10 @@
 const app = require("../app");
 const debug = require("debug")("connection-project:server");
 const http = require("http");
+const path = require('path');
+
+// for multiple .env (.env.dev, .env.qlf, .env.prod)
+require("dotenv").config({path: path.join(__dirname,`.env.${process.env.NODE_ENV}`)});
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
