@@ -21,10 +21,10 @@ node {
     /* Requires the Docker Pipeline plugin to be installed */
     docker.image('node:latest').inside {
         def newImage
-        stage('BUILD') {
+        stage('Node: BUILD') {
             sh 'npm install'
         }
-        stage('Test') {
+        stage('Node: Test') {
             echo 'npm test'
         }
     }
@@ -51,7 +51,7 @@ node {
     stage('Docker Build new version') {
         sh "export MINOR_TAG=${env.BUILD_ID}"
         sh 'docker-compose -f docker-compose.override.yml build'
-        sh "docker-compose -f docker-compose.override.yml up -d"
+        sh "MINOR_TAG=${env.BUILD_ID} docker-compose -f docker-compose.override.yml up -d"
     }
     stage('Docker Push new version') {
         sh 'docker-compose push'
