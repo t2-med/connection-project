@@ -50,7 +50,7 @@ node {
     }
     stage('Docker Build new version') {
         sh "export MINOR_TAG=${env.BUILD_ID}"
-        sh 'docker-compose -f docker-compose.override.yml build'
+        sh "MINOR_TAG=${env.BUILD_ID} docker-compose -f docker-compose.override.yml build"
         sh "MINOR_TAG=${env.BUILD_ID} docker-compose -f docker-compose.override.yml up -d"
     }
     stage('Docker Push new version') {
