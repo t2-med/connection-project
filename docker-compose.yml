@@ -18,10 +18,7 @@ services:
       - .env
   mongo_connection:
     container_name: ${MONGO_CONTAINER}
-    image: '${DOCKER_USER}/mongo_connection'
-    build:
-      context: .
-      dockerfile: Dockerfile-mongo
+    image: mongo
     restart: unless-stopped
     ports:
       - "${DB_PORT}:27017"
