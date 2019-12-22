@@ -33,15 +33,15 @@ node {
         sh 'docker login -u=$DOCKER_HUB_USER -p=$DOCKER_HUB_PASS docker.io'
     }
     stage('Docker Build latest version') {
-        sh 'docker-compose build'
-        sh "docker-compose up -d"
+        sh 'docker-compose -f docker-compose.yml  build'
+        sh "docker-compose -f docker-compose.yml  up -d"
     }
     // stage('Docker Tag') {
     //     sh "docker tag $DOCKER_HUB_USER/node_connection $DOCKER_HUB_USER/node_connection:1.0.${env.BUILD_ID}-SNAPSHOT"
     //     sh "docker tag $DOCKER_HUB_USER/node_connection $DOCKER_HUB_USER/node_connection:latest"
     // }
     stage('Docker Push latest version') {
-        sh 'docker-compose push'
+        sh 'docker-compose -f docker-compose.yml push'
         // docker.withRegistry('', 'DockerHub') {
         // newImage.push()
         // }
@@ -54,7 +54,7 @@ node {
         sh "MINOR_TAG=${env.BUILD_ID} docker-compose -f docker-compose.override.yml up -d"
     }
     stage('Docker Push new version') {
-        sh 'docker-compose push'
+        sh 'docker-compose -f docker-compose.override.yml push'
     }
     stage('Docker Logout') {
         sh 'docker logout'
