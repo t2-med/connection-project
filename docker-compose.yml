@@ -8,14 +8,14 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     depends_on:
-      - ${MONGO_SERVICE}
+      - mongo_connection
     command: ./wait-for.sh ${MONGO_CONTAINER}:${DB_PORT} -- npm start
     ports:
-      - "${NODE_PORT}:3000"
+      - "${NODE_PORT}:${NODE_PORT}"
     networks: 
       - net_node
-    env_file: 
-      - .env
+    env_file:
+      - .env.dev
   mongo_connection:
     container_name: ${MONGO_CONTAINER}
     image: mongo

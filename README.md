@@ -11,6 +11,6 @@
 ## RUN
 
 ```bash
-docker-compose build
-docker-compose up -d
+docker-compose -f docker-compose.yml up --build
+
 ```

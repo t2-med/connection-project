@@ -4,17 +4,17 @@
  * Module dependencies.
  */
 
-const app = require("../app");
-const debug = require("debug")("connection-project:server");
-const http = require("http");
+const app = require('../app');
+const debug = require('debug')('connection-project:server');
+const http = require('http');
 const path = require('path');
 
 // for multiple .env (.env.dev, .env.qlf, .env.prod)
-require("dotenv").config({path: path.join(__dirname,`.env.${process.env.NODE_ENV}`)});
+require('dotenv').config({path: path.join(__dirname,`.env.${process.env.NODE_ENV}`)});
 
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
+// if (process.env.NODE_ENV !== 'production') {
+//   require('dotenv').config();
+// }
 
 // const db = require(`../database/${process.env.DB}-connection`);
 const db = require(`../database/mongodb-connection`);
@@ -24,8 +24,8 @@ const db = require(`../database/mongodb-connection`);
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.NODE_PORT || "3000");
-app.set("port", port);
+const port = normalizePort(process.env.NODE_PORT || '3000');
+app.set('port', port);
 
 /**
  * Create HTTP server.
@@ -37,7 +37,7 @@ db.run()
   .then(() => {
     console.log(`succefully connection ${process.env.DB}`);
   })
-  .catch(error => console.error(error));
+  .catch(error => console.error(error ));
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -47,8 +47,8 @@ server.listen(port,() => {
   });
 
 // server.listen(port);
-server.on("error", onError);
-server.on("listening", onListening);
+server.on('error', onError);
+server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -71,24 +71,24 @@ function normalizePort(val) {
 }
 
 /**
- * Event listener for HTTP server "error" event.
+ * Event listener for HTTP server 'error' event.
  */
 
 function onError(error) {
-  if (error.syscall !== "listen") {
+  if (error.syscall !== 'listen') {
     throw error;
   }
 
-  const bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+  const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
-    case "EACCES":
-      console.error(bind + " requires elevated privileges");
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
       process.exit(1);
       break;
-    case "EADDRINUSE":
-      console.error(bind + " is already in use");
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
       process.exit(1);
       break;
     default:
@@ -97,13 +97,13 @@ function onError(error) {
 }
 
 /**
- * Event listener for HTTP server "listening" event.
+ * Event listener for HTTP server 'listening' event.
  */
 
 function onListening() {
   const addr = server.address();
-  const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
-  debug("Listening on " + bind);
+  const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+  debug('Listening on ' + bind);
 }
 
 // db.run()

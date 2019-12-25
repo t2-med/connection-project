@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const moment = require("moment");
+const jwt = require('jsonwebtoken');
+const moment = require('moment');
 
 const createToken = async user => {
   const payload = {
@@ -7,9 +7,9 @@ const createToken = async user => {
   };
 
   return await jwt.sign(payload, process.env.SECRET_TOKEN, {
-    algorithm: "HS256",
-    expiresIn: "1h",
-    subject: user.email
+    algorithm: 'HS256',
+    expiresIn: '1h',
+    subject: user.email || user.username
   });
 };
 

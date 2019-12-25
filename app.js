@@ -1,25 +1,33 @@
-const createError = require("http-errors");
-const express = require("express");
-const path = require("path");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
 const YAML = require('yamljs');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = YAML.load('./swaggers/swagger.yaml');
+// convert yaml to json
+let jsonSwaggerDocument = YAML.load('./swaggers/swagger.yaml');
 
-const routes = require("./routes");
+const routes = require('./routes');
+
+const replaceSwaggerEnvironmentVariable = require('./utils/swagger-environment');
+
+// const env = require('dotenv').config();
+const env = require('dotenv').config({path: path.join(__dirname,`.env.${process.env.NODE_ENV}`)});
 
 const app = express();
 
-app.use(logger("dev"));
+jsonSwaggerDocument = replaceSwaggerEnvironmentVariable(jsonSwaggerDocument, env);
+
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.get("/", (req, res) => res.redirect('/api/v1/users'));
-app.use("/api/v1", routes);
+app.use(process.env.BASE_PATH_DOCS, swaggerUi.serve, swaggerUi.setup(jsonSwaggerDocument));
+app.get('/', (req, res) => res.redirect(process.env.BASE_PATH_DOCS));
+app.use(process.env.BASE_PATH , routes);
 
 app.use((err, req, res, next) => {
   res.status(err.status).json(err);
