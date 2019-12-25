@@ -1,8 +1,9 @@
-require("dotenv").config();
+// require('dotenv').config({path: path.join(__dirname,`.env.${process.env.NODE_ENV}`)});
 // const User = require(`../models/${process.env.DB}-user`);
+
 const User = require(`../models/mongodb-user`);
-const auth = require("../utils/auth");
-const ObjectId = require("mongoose").Types.ObjectId;
+const auth = require('../utils/auth');
+const ObjectId = require('mongoose').Types.ObjectId;
 
 const getAll = async () => await User.find();
 
@@ -20,7 +21,7 @@ const createSome = async users => {
   return res;
 };
 
-// recommended option to use middlewares "hooks" (pre, post ...)
+// recommended option to use middlewares 'hooks' (pre, post ...)
 const update = async (criteria, user) => {
   const id = ObjectId.isValid(criteria) ? criteria : null;
   const findedUser = await User.findOne({
@@ -52,16 +53,16 @@ const getByUserName = async username => await User.findOne({ username });
 const getByEmail = async email => await User.findOne({ email });
 
 const login = async user => {
-  const findedUser = await User
-  .findOne({ email: user.email })
-  .select("password"); // to retrieve password field, because schema select option is set to false
+  const findedUser = await User.findOne({ email: user.email }) 
+  || await User.findOne({ username: user.username })
+  .select('password'); // to retrieve password field, because schema select option is set to false
   const isValidLogin = await findedUser.comparePassword(user.password);
   if (isValidLogin) {
     findedUser.temporal_token = await auth.createToken(user);
     await findedUser.save();
     return { token: findedUser.temporal_token };
   }
-  throw new Error("Invalide Token");
+  throw new Error('Invalide Token');
 };
 
 module.exports = {

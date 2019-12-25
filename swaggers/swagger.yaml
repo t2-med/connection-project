@@ -9,8 +9,8 @@ info:
   license:
     name: "MIT"
     url: "https://opensource.org/licenses/mit-license.php"
-host: "localhost:3000"
-basePath: "/api/v1"
+host: "${NODE_HOST}:${NODE_PORT}"
+basePath: "${BASE_PATH}"
 tags:
 - name: "user"
   description: "Operations about user"
@@ -75,7 +75,7 @@ paths:
         default:
           description: "successful operation"
   /users/login:
-    get:
+    post:
       tags:
       - "user"
       summary: "Logs user into the system"
@@ -84,16 +84,16 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "username"
-        in: "query"
-        description: "The user name for login"
+      - in: "body"
+        name: "body"
+        description: "The user login"
+        type: "object"
+        properties:
+          username:
+            type: "string"
+          password:
+            type: "string"
         required: true
-        type: "string"
-      - name: "password"
-        in: "query"
-        description: "The password for login in clear text"
-        required: true
-        type: "string"
       responses:
         200:
           description: "successful operation"
@@ -340,38 +340,47 @@ securityDefinitions:
     name: "api_key"
     in: "header"
 definitions:
-  User:
+  BasicUser:
     type: "object"
+    required:
+      - username
+      - password
+      - email
     properties:
       id:
         type: "integer"
         format: "int64"
       username:
         type: "string"
-      first_name:
-        type: "string"
-      last_name:
+      password:
         type: "string"
       email:
         type: "string"
-      password:
-        type: "string"
-      active:
-        type: "boolean"
-      created_date:
-        type: "string"
-      updated_date:
-        type: "string"
-      temporal_token:
-        type: "string"
-      reset_token:
-        type: "string"
-      permission:
-        type: "array"
-        items:
-          type: "string"
-    xml:
-      name: "User"
+  User:
+    allOf:
+      - $ref: "#/definitions/BasicUser"
+      - type: "object"
+        properties:
+          first_name:
+            type: "string"
+          last_name:
+            type: "string"
+          active:
+            type: "boolean"
+          created_date:
+            type: "string"
+          updated_date:
+            type: "string"
+          temporal_token:
+            type: "string"
+          reset_token:
+            type: "string"
+          permission:
+            type: "array"
+            items:
+              type: "string"
+        xml:
+          name: "User"
   Tag:
     type: "object"
     properties:
