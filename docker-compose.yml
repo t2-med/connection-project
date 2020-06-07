@@ -9,6 +9,7 @@ services:
     restart: unless-stopped
     depends_on:
       - mongo_connection
+      - redis_connection
     command: ./wait-for.sh ${MONGO_CONTAINER}:${DB_PORT} -- npm start
     ports:
       - "${NODE_PORT}:${NODE_PORT}"
@@ -25,7 +26,23 @@ services:
     networks: 
       - net_node 
     volumes:
-     - ${MONGO_VOLUME}:/data/db
+     - ${PWD}${MONGO_VOLUME}:/data/db
+  redis_connection:
+    container_name: ${REDIS_CONTAINER}
+    image: redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    networks: 
+      - net_node 
 
 networks: 
   net_node:
+
+# volumes:
+#   mongodata:
+#     driver: local
+#     driver_opts:
+#       type: 'none'
+#       o: 'bind'
+#       device: ${PWD}${MONGO_VOLUME}

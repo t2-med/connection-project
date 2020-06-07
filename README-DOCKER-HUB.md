@@ -8,6 +8,8 @@
 >* recover forgotten password
 >* oauth -> log-in with google account
 
+---------------------------------------------------------------------
+
 ## OPTION 1 (docker run)
 
 node_connection image depends on mongoDB so it must be linked to this
@@ -20,6 +22,8 @@ docker run --name mongo_connection --network net_connection -p 27017:27017 -v $P
 docker run --name node_connection --network net_connection -p 3000:3000 -d med2bouanane/node_connection
 
 ```
+
+----------------------------------------------------------------
 
 ## OPTION 2 (use docker-compose)
 
@@ -61,6 +65,8 @@ networks:
   net_node:
 ```
 
+--------------------------------------------------
+
 ## .env
 
 ```bash
@@ -86,6 +92,8 @@ MONGO_SERVICE=mongo_connection
 MONGO_VOLUME=./data/mongodb
 MINOR_TAG=0
 ```
+
+-----------------------------------------------------------------------
 
 ## Execute Image
 
